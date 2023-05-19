@@ -88,6 +88,8 @@ def algorithm2(signed_edges):
             counter = Counter(positives)
                 #maximum = max(counter.values())
             maximum = counter.most_common(1)[0][0]
+
+
             print(Counter(positives))
             return maximum
         #print(find_max_positive_degree(signed_edges))
@@ -185,10 +187,83 @@ def algorithm3(signed_edges):
 
     find_max_difference(signed_edges)
 
+#--------------------------------------------------------------------------------------------------
+
+#Funzione di Cascading
+
+#Function to retrieve positive and negative neighbors for every nodes
+
+def node_neighbors(seed_set,edge_list):
+
+    #Per ogni nodo nel S vediamo se corrisponde alla sorgente o destinazione di ogni arco presente in Signed Edges
+    print("")
+    node_info = []
+    for node in seed_set:
+        for edge in edge_list:
+            if node == edge[0] | node == edge[1]:
+                node_info.append((node, edge))
+    
+    return node_info
+
+def find_neighbors_in_seedset(seed_set):
+    #Dobbiamo prendere tutti i nodi fuori il seedset, ovvero in signed_edges - seedset
+    #Dobbiamo cercare tutti gli archi che hanno come sorgente (o destinazione) node, 
+    # e come destinazione(o sorgente) un nodo presente in seed_set
+    # differenza tra signed_edge e seed set, poi andiamo a prendere il risultato e prendere tutti gli archi all'interno di signed_edge che hanno come
+    #sorgente (o come destinazione) un nodo in risultato.
+    print("Signed edges: ",signed_edges)
+    print("Seed set", seed_set)
+    nodes = set()
+    #signed_edge = [0,1,2,3,4,5,6,7,8,9]
+    seed_set = [3,8,6,9]
+    filtered_edges = []
+    
+    for edge in signed_edges:
+        nodes.add(edge[0])
+        nodes.add(edge[1])
+    
+    node_list = list(nodes)
+    print(node_list)
+
+    outside_seed_set = list(set(node_list) - set(seed_set))
+    print(outside_seed_set)
+
+    for edge in signed_edges:
+        source_node = edge[0]
+        target_node = edge[1]
+
+        if (source_node in outside_seed_set and target_node in outside_seed_set) or (source_node not in outside_seed_set and target_node not in outside_seed_set):
+            continue
+        filtered_edges.append(edge)
+        
+    print('Edge filtrati',filtered_edges)
+
+    '''
+    for edge in signed_edges:
+        for node in seed_set:
+            if not (edge[1] == node) and (edge[0] not in influence_node):
+                influence_node.append(edge[0])
+    print("Influence node: ",influence_node)
+    for set_node in seed_set:
+        for edge in node_info[1]:
+            if edge[0] == node_info[0]:
+                if edge[1] == set_node:
+            if edge[1] == node_info[0]:
+                if edge[0] == set_node:
+
+    '''
+
+#--------------------------------------------------------------------------------------------------
+
+#Main applicazione
 
 #algorithm3(signed_edges)
 
-algorithm2(signed_edges)
+S = algorithm2(signed_edges)
+
+
+#node_neighbors(S, signed_edges)
+find_neighbors_in_seedset(S)
 
 '''
 max_out_degree = 0
