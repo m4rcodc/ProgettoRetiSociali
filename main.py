@@ -16,12 +16,11 @@ snap.DrawGViz(G2, snap.gvlDot, "output.png", "Grafo non diretto")
 
 
 
-for i in range(4,8):
+for k in range(4,8):
     seed(1)
     avg_len=0
     print("\n\n")
-    print("++++++++++++++++++++++++++++++Starting simulation with k=",i,"+++++++++++++++++++++++++++++++++++++++")
-    k=i
+    print("++++++++++++++++++++++++++++++Starting simulation with k=",k,"+++++++++++++++++++++++++++++++++++++++")
 
     for i in range(0,10):
 
