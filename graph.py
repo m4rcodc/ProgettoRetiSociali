@@ -37,11 +37,8 @@ def getMaxDegree(G2,value_src,value_dst):
 #Labeling degli edge
 def edge_labeling(G2, signed_edges):
 
-    seed(1)
-
     for EI in G2.Edges():
         value = random()
-        print(value)
         #if value <= 0.10:
         if value <= getMaxDegree(G2,EI.GetSrcNId(),EI.GetDstNId()):
             signed_edges.append((EI.GetSrcNId(),EI.GetDstNId(),'-'))
