@@ -4,6 +4,7 @@ from random import random
 from collections import Counter
 import graph
 import matplotlib.pyplot as plt
+from concurrent.futures import ThreadPoolExecutor
 
 
 #--------------------------------------------------------------------------------------------------
@@ -12,14 +13,13 @@ avg_values2=[]
 avg_values3=[]
 
 #Graph import and visualization
-G2 = snap.GenRndGnm(snap.TUNGraph, 40, 70)
-#G2 = snap.LoadEdgeList(snap.TNGraph, "Network.txt", 0, 1)
+#G2 = snap.GenRndGnm(snap.TUNGraph, 40, 70)
+G2 = snap.LoadEdgeList(snap.TNGraph, "Network.txt", 0, 1)
 print("Grafo con",G2.GetNodes()," e ",G2.GetEdges()," archi caricato!")
 #snap.DrawGViz(G2, snap.gvlDot, "output.png", "Grafo non diretto")
 
 
-
-for k in range(20,120,20):
+def parallelized_function():
     seed(1)
     avg_len2 = 0
     avg_len3 = 0
@@ -49,8 +49,8 @@ for k in range(20,120,20):
         avg_len2 += len(nodes2)
         avg_len3 += len(nodes3)
 
-    avg_values2.append(avg_len2/10)
-    avg_values3.append(avg_len3/10)
+    # avg_values2.append(avg_len2/10)
+    # avg_values3.append(avg_len3/10)
     #Final print
     print("Main completed")
     print("--------------------------------------------Result--------------------------------------------------")
@@ -58,9 +58,25 @@ for k in range(20,120,20):
     print('Average number of influenced nodes by alg3: ',avg_len3/10)
     print("----------------------------------------------------------------------------------------------------")
 
+    return (avg_len2,avg_len3)
+
+pool = ThreadPoolExecutor()
+results = []
+
+for k in range(20,120,20):
+    result = pool.submit(parallelized_function)
+    results.append(result)
+
+pool.shutdown()
+
+for result in results:
+    print("Result alg2: ",result[0])
+    avg_values2.append(result[0])
+    print("Result alg3: ",result[1])
+    avg_values3.append(result[1])
 
 # Dati di esempio
-k = [4, 5, 6, 7]  # Valori assegnati a "k"
+k = [20, 40, 60, 80, 100]  # Valori assegnati a "k"
 
 # Creazione del grafico
 plt.plot(k, avg_values2, marker='o', linestyle='-', color='b', label = 'Algoritmo 2')
