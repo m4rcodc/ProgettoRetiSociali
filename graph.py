@@ -11,6 +11,10 @@ import copy
 
 
 #G2 = snap.GenRndGnm(snap.TUndirNet, 4, 6)
+G2 = snap.GenRndGnm(snap.TUNGraph, 15, 20)
+
+signed_edges = []
+
 
 #Compute function for proprability distribution
 def getMaxDegree(G2,value_src,value_dst):
@@ -168,6 +172,90 @@ def algorithm3(signed_edges,k):
 
 #--------------------------------------------------------------------------------------------------------------------------
 
+#Applicazione algoritmo ideato
+#L'algoritmo prenderà il nodo con grado positivo e coefficiente di clastering più alti
+#Dopodiché considererà quello con più vicini che hanno grado positivo più alto
+
+def algorithmIdeato(signed_edges):
+    
+    def return_node_positive_degree(node,edge_list):
+        positives = 0
+            #maximum = 0
+        for edge in edge_list:
+                if (edge[0] == node or edge[1] == node) and edge[2] == '+':
+                    positives+=1
+        return positives
+
+
+
+    #Find max positive node degree outsiede of seed set S
+    def metric_seed_set(edge_list):
+            
+            positives = []
+            #maximum = 0
+            for edge in edge_list:
+                if edge[2] == '+':
+                    positives.append(edge[0])
+                    positives.append(edge[1])
+                #maximum = max(Counter(positives), maximum)
+            counter = Counter(positives)
+                #maximum = max(counter.values())
+            #print(counter)
+            maximum = counter.most_common(1)[0][1]
+
+
+            maximum_nodes = []
+
+            for node in counter.items():
+                if node[1] > maximum - 5:
+                    maximum_nodes.append(node[0])
+                else:
+                    break
+
+            
+            print('Nodi di grado massimo:', maximum_nodes)
+            
+            neighbors = []
+
+            #neighbors = [4: (5,6,7), 6: (4,5,7)]
+
+            for node in maximum_nodes:
+                ns = []
+                for edge in signed_edges:
+                    if edge[0] == node:
+                        ns.append(edge[1])
+                    elif edge[1] == node:
+                        ns.append(edge[0])
+                neighbors.append((node, ns))
+            
+            print('Nodi vicini a quelli di grado massimo:', neighbors)
+            
+            max_values = {}
+
+            for node in neighbors:
+                sum = 0
+                for neighbor in node[1]:
+                    sum += return_node_positive_degree(neighbor, signed_edges)
+                max_values[node[0]]=sum
+
+            print('Somma dei gradi dei nodi vicini per ogni nodo', max_values)
+            seed_set_node = max(max_values, key=max_values.get)
+            #counter = max_values
+            #seed_set_node = counter.most_common(1)[0][0]
+
+            print("Signed edges: ",signed_edges)
+            print(seed_set_node)
+            return seed_set_node
+        #print(find_max_positive_degree(signed_edges))
+    
+    metric_seed_set(signed_edges)
+
+
+
+
+
+#--------------------------------------------------------------------------------------------------------------------------
+
 #Funzione di Cascading
 
 #Function to retrieve positive and negative neighbors for every nodes
@@ -280,3 +368,6 @@ def cascade_function(seed_set, threshold, signed_edges):
     return influenced_nodes
     #print('Nodi influenzati',influenced_nodes)
 
+
+edge_labeling(G2, signed_edges)
+algorithmIdeato(signed_edges)
