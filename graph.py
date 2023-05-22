@@ -385,6 +385,6 @@ def cascade_function(seed_set, threshold, signed_edges):
     #print('Nodi influenzati',influenced_nodes)
 
 
-edge_labeling(G2, signed_edges)
-S = algorithmIdeato(signed_edges, 2)
-print("Seed set trovato: ",S)
+# edge_labeling(G2, signed_edges)
+# S = algorithmIdeato(signed_edges, 2)
+# print("Seed set trovato: ",S)

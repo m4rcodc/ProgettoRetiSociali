@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 #Main function
 avg_values2=[]
 avg_values3=[]
+avg_values4=[]
 
 #Graph import and visualization
 G2 = snap.GenRndGnm(snap.TUNGraph, 40, 70)
@@ -23,6 +24,7 @@ for k in range(1,4):
     seed(1)
     avg_len2 = 0
     avg_len3 = 0
+    avg_len4 = 0
     print("\n\n")
     print("++++++++++++++++++++++++++++++Starting simulation with k=",k,"+++++++++++++++++++++++++++++++++++++++")
 
@@ -35,6 +37,7 @@ for k in range(1,4):
         signed_edges = []
         nodes2 = []
         nodes3 = []
+        nodes4 = []
 
         #Operations
         print("--------------------------------Starting iteration", i,"---------------------------------------- ")
@@ -45,13 +48,16 @@ for k in range(1,4):
         print("Initial Seed Set: ",S2)
         nodes2 = graph.cascade_function(S2, threshold, signed_edges)
         nodes3 = graph.cascade_function(S3, threshold, signed_edges)
+        nodes4 = graph.cascade_function(S4, threshold, signed_edges)
         #print("Influenced nodes: ",nodes2)
         print("Length of influenced nodes: ",len(nodes2))
         avg_len2 += len(nodes2)
         avg_len3 += len(nodes3)
+        avg_len4 += len(nodes4)
 
     avg_values2.append(avg_len2/10)
     avg_values3.append(avg_len3/10)
+    avg_values4.append(avg_len4/10)
     #Final print
     print("Main completed")
     print("--------------------------------------------Result--------------------------------------------------")
@@ -61,11 +67,12 @@ for k in range(1,4):
 
 
 # Dati di esempio
-k = [4, 5, 6, 7]  # Valori assegnati a "k"
+k = [1,2,3,4]  # Valori assegnati a "k"
 
 # Creazione del grafico
 plt.plot(k, avg_values2, marker='o', linestyle='-', color='b', label = 'Algoritmo 2')
 plt.plot(k, avg_values3, marker='o', linestyle='-', color='r', label = 'Algoritmo 3')
+plt.plot(k, avg_values4, marker='o', linestyle='-', color='g', label = 'AlgoritmoIdeato')
 
 # Titoli degli assi e del grafico
 plt.xlabel('k')
