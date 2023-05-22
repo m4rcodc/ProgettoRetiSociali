@@ -11,7 +11,7 @@ import copy
 
 
 #G2 = snap.GenRndGnm(snap.TUndirNet, 4, 6)
-G2 = snap.GenRndGnm(snap.TUNGraph, 15, 20)
+G2 = snap.GenRndGnm(snap.TUNGraph, 5, 6)
 
 signed_edges = []
 
@@ -176,7 +176,9 @@ def algorithm3(signed_edges,k):
 #L'algoritmo prenderà il nodo con grado positivo e coefficiente di clastering più alti
 #Dopodiché considererà quello con più vicini che hanno grado positivo più alto
 
-def algorithmIdeato(signed_edges):
+def algorithmIdeato(signed_edges,k):
+
+    S = []
     
     def return_node_positive_degree(node,edge_list):
         positives = 0
@@ -203,6 +205,7 @@ def algorithmIdeato(signed_edges):
             #print(counter)
             maximum = counter.most_common(1)[0][1]
 
+            print('Counter:', counter)
 
             maximum_nodes = []
 
@@ -248,9 +251,22 @@ def algorithmIdeato(signed_edges):
             return seed_set_node
         #print(find_max_positive_degree(signed_edges))
     
-    metric_seed_set(signed_edges)
+    while len(S) < k:
+            
+            u = metric_seed_set(signed_edges)
+            #togliere da signed_edges u
+            signed_edges = [tupla for tupla in signed_edges if tupla[0] != u]
+                            
+            S.append(u)
 
+            signed_edges = [tupla for tupla in signed_edges if tupla[1] != u]
 
+            #for EI in signed_edges:
+                #print('Signed edge',EI[0], EI[1], EI[2])
+
+    #print("Trovato seed set ", S," con lunghezza ",len(S))
+
+    return S
 
 
 
@@ -370,4 +386,5 @@ def cascade_function(seed_set, threshold, signed_edges):
 
 
 edge_labeling(G2, signed_edges)
-algorithmIdeato(signed_edges)
+S = algorithmIdeato(signed_edges, 2)
+print("Seed set trovato: ",S)

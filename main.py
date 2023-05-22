@@ -19,7 +19,7 @@ print("Grafo con",G2.GetNodes()," e ",G2.GetEdges()," archi caricato!")
 
 
 
-for k in range(20,120,20):
+for k in range(1,4):
     seed(1)
     avg_len2 = 0
     avg_len3 = 0
@@ -41,6 +41,7 @@ for k in range(20,120,20):
         graph.edge_labeling(G2, signed_edges)
         S2 = graph.algorithm2(signed_edges, k)
         S3 = graph.algorithm3(signed_edges, k)
+        S4 = graph.algorithmIdeato(signed_edges, k)
         print("Initial Seed Set: ",S2)
         nodes2 = graph.cascade_function(S2, threshold, signed_edges)
         nodes3 = graph.cascade_function(S3, threshold, signed_edges)
