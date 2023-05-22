@@ -7,11 +7,11 @@ import copy
 
 #Probability distribution
 
-#G5 = snap.LoadEdgeList(snap.TUNGraph, "test.txt", 0, 1)
+G5 = snap.LoadEdgeList(snap.TUNGraph, "test.txt", 0, 1)
 
 
 #G2 = snap.GenRndGnm(snap.TUndirNet, 4, 6)
-G2 = snap.GenRndGnm(snap.TUNGraph, 5, 6)
+#G2 = snap.GenRndGnm(snap.TUNGraph, 150, 250)
 
 signed_edges = []
 
@@ -41,10 +41,12 @@ def getMaxDegree(G2,value_src,value_dst):
 #Labeling degli edge
 def edge_labeling(G2, signed_edges):
 
+    #seed(1)
+
     for EI in G2.Edges():
         value = random()
-        #if value <= 0.10:
-        if value <= getMaxDegree(G2,EI.GetSrcNId(),EI.GetDstNId()):
+        if value <= 0.10:
+        #if value <= getMaxDegree(G2,EI.GetSrcNId(),EI.GetDstNId()):
             signed_edges.append((EI.GetSrcNId(),EI.GetDstNId(),'-'))
 
         else:
@@ -205,7 +207,7 @@ def algorithmIdeato(signed_edges,k):
             #print(counter)
             maximum = counter.most_common(1)[0][1]
 
-            print('Counter:', counter)
+            #print('Counter:', counter)
 
             maximum_nodes = []
 
@@ -213,10 +215,10 @@ def algorithmIdeato(signed_edges,k):
                 if node[1] > maximum - 5:
                     maximum_nodes.append(node[0])
                 else:
-                    break
+                    continue
 
             
-            print('Nodi di grado massimo:', maximum_nodes)
+            #print('Nodi di grado massimo:', maximum_nodes)
             
             neighbors = []
 
@@ -231,9 +233,10 @@ def algorithmIdeato(signed_edges,k):
                         ns.append(edge[0])
                 neighbors.append((node, ns))
             
-            print('Nodi vicini a quelli di grado massimo:', neighbors)
+            #print('Nodi vicini a quelli di grado massimo:', neighbors)
             
             max_values = {}
+            
 
             for node in neighbors:
                 sum = 0
@@ -241,13 +244,13 @@ def algorithmIdeato(signed_edges,k):
                     sum += return_node_positive_degree(neighbor, signed_edges)
                 max_values[node[0]]=sum
 
-            print('Somma dei gradi dei nodi vicini per ogni nodo', max_values)
+            #print('Somma dei gradi dei nodi vicini per ogni nodo', max_values)
             seed_set_node = max(max_values, key=max_values.get)
             #counter = max_values
             #seed_set_node = counter.most_common(1)[0][0]
 
-            print("Signed edges: ",signed_edges)
-            print(seed_set_node)
+            #print("Signed edges: ",signed_edges)
+            #print(seed_set_node)
             return seed_set_node
         #print(find_max_positive_degree(signed_edges))
     
@@ -385,6 +388,10 @@ def cascade_function(seed_set, threshold, signed_edges):
     #print('Nodi influenzati',influenced_nodes)
 
 
-# edge_labeling(G2, signed_edges)
-# S = algorithmIdeato(signed_edges, 2)
-# print("Seed set trovato: ",S)
+
+edge_labeling(G5, signed_edges)
+S = algorithm2(signed_edges, 4)
+print("Seed set trovato: ", S)
+nodes = cascade_function(S,2,signed_edges)
+print('Nodi influenzati: ', nodes)
+print("Length of influenced nodes: ",len(nodes))
