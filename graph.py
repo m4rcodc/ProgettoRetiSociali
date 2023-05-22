@@ -13,8 +13,6 @@ import copy
 #G2 = snap.GenRndGnm(snap.TUndirNet, 4, 6)
 #G2 = snap.GenRndGnm(snap.TUNGraph, 150, 250)
 
-signed_edges = []
-
 
 #Compute function for proprability distribution
 def getMaxDegree(G2,value_src,value_dst):
@@ -39,19 +37,21 @@ def getMaxDegree(G2,value_src,value_dst):
 #--------------------------------------------------------------------------------------------------------------------------
 
 #Labeling degli edge
-def edge_labeling(G2, signed_edges):
+def edge_labeling(G2):
 
     #seed(1)
+    signed_edges=[]
 
     for EI in G2.Edges():
         value = random.random()
-        #if value <= 0.10:
-        if value <= getMaxDegree(G2,EI.GetSrcNId(),EI.GetDstNId()):
+        if value <= 0.10:
+        # if value <= getMaxDegree(G2,EI.GetSrcNId(),EI.GetDstNId()):
             signed_edges.append((EI.GetSrcNId(),EI.GetDstNId(),'-'))
 
         else:
             signed_edges.append((EI.GetSrcNId(),EI.GetDstNId(),'+'))
 
+    return signed_edges
 
 #--------------------------------------------------------------------------------------------------------------------------
 
@@ -104,7 +104,7 @@ def algorithm2(signed_edges,k):
 
 #Applicazione algoritmo 3
 
-def algorithm3(signed_edges,k):
+def algorithm3(signed_edges,k, threshold):
 
     S = []
 
@@ -140,8 +140,8 @@ def algorithm3(signed_edges,k):
 
         for v in nodes_verify_condition.items():
             
-            if v[1]/2 > maximum:
-                maximum = v[1]/2
+            if v[1]/threshold > maximum:
+                maximum = v[1]/threshold
                 maximum_key = v[0]
 
         return maximum_key
