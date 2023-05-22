@@ -1,13 +1,13 @@
 #possibile algoritmo: prendere i nodi con un grado medio
 import snap
-from random import seed
-from random import random
+#from random import seed
+import random 
 from collections import Counter
 import copy
 
 #Probability distribution
 
-G5 = snap.LoadEdgeList(snap.TUNGraph, "test.txt", 0, 1)
+#G5 = snap.LoadEdgeList(snap.TUNGraph, "test.txt", 0, 1)
 
 
 #G2 = snap.GenRndGnm(snap.TUndirNet, 4, 6)
@@ -44,9 +44,9 @@ def edge_labeling(G2, signed_edges):
     #seed(1)
 
     for EI in G2.Edges():
-        value = random()
-        if value <= 0.10:
-        #if value <= getMaxDegree(G2,EI.GetSrcNId(),EI.GetDstNId()):
+        value = random.random()
+        #if value <= 0.10:
+        if value <= getMaxDegree(G2,EI.GetSrcNId(),EI.GetDstNId()):
             signed_edges.append((EI.GetSrcNId(),EI.GetDstNId(),'-'))
 
         else:
@@ -175,8 +175,8 @@ def algorithm3(signed_edges,k):
 #--------------------------------------------------------------------------------------------------------------------------
 
 #Applicazione algoritmo ideato
-#L'algoritmo prenderà il nodo con grado positivo e coefficiente di clastering più alti
-#Dopodiché considererà quello con più vicini che hanno grado positivo più alto
+#L'algoritmo prenderÃ  il nodo con grado positivo e coefficiente di clastering piÃ¹ alti
+#DopodichÃ© considererÃ  quello con piÃ¹ vicini che hanno grado positivo piÃ¹ alto
 
 def algorithmIdeato(signed_edges,k):
 
@@ -388,10 +388,13 @@ def cascade_function(seed_set, threshold, signed_edges):
     #print('Nodi influenzati',influenced_nodes)
 
 
+'''
 
-edge_labeling(G5, signed_edges)
-S = algorithm2(signed_edges, 4)
+edge_labeling(G2, signed_edges)
+S = algorithmIdeato(signed_edges, 4)
 print("Seed set trovato: ", S)
 nodes = cascade_function(S,2,signed_edges)
 print('Nodi influenzati: ', nodes)
 print("Length of influenced nodes: ",len(nodes))
+
+'''
