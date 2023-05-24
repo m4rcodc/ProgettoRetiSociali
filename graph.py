@@ -280,24 +280,65 @@ def algorithmTSS(G2,signed_edges,k,threshold):
     S = []
 
     node_info = {}
+    #node_info ={n: (t,g,N(nx,ny,..., nz))}
 
     for node in G2.Nodes():
-            ns = []
-            for edge in signed_edges:
-                if edge[0] == node.GetId():
-                    ns.append(edge[1])
-                elif edge[1] == node.GetId():
-                    ns.append(edge[0])
-            node_info.append((node, ns))
+        ns = []
+        lista = []
+        for edge in signed_edges:
+            if edge[0] == node.GetId():
+                ns.append(edge[1])
+            elif edge[1] == node.GetId():
+                ns.append(edge[0])
+        lista.append(threshold)
+        lista.append(node.GetOutDeg())
+        lista.append(ns)
+        node_info[node.GetId()]=lista
+    
+    while len(node_info) != 0:
+        print(node_info)
+        zero_threshold = [v for v in node_info.items() if v[1][0]==0]
+        if len(zero_threshold) != 0:
+            for v in zero_threshold:
+                for neighbor in v[1][2]:
+                    node_info[neighbor][1][0]-=1
+                    node_info[neighbor][1][1] -=1
+                    node_info[neighbor][1][2].remove(v[0])
+                node_info.pop(v[0])
+        else:
+            lower_degree = [v for v in node_info.items() if v[1][1] < v[1][0]]
+            if len(lower_degree) != 0:
+                for v in lower_degree:
+                    S.append(v[0])
+                    for neighbor in v[1][2]:
+                        node_info[neighbor][0]-=1
+                        node_info[neighbor][1] -=1
+                        node_info[neighbor][2].remove(v[0])
+                    del node_info[v[0]]
+            else:
+                mx = 0
+                vl = 0
+                for nd in node_info.items():
+                    val = (nd[1][0]) / ((nd[1][1] * nd[1][1]) + 1)
+                    if val > mx:
+                        mx = val
+                        vl = nd
+                max_nodes=[v for v in node_info.items() if (v[1][0]) / ((v[1][1] * v[1][1]) + 1) == mx]
+                if len(max_nodes) != 0:
+                    if max_nodes[0][0] in vl[1][2]:
+                        max_nodes[0][1][1] -=1
+                        max_nodes[0][1][2].remove(vl[0])
+                    node_info.pop(max_nodes[0][0])
+                else:
+                    continue
+    return S
 
-
-    for node in G2.Nodes():
-        if node.GetOutDeg() <  threshold:
-            S.append(node)
 
     
-
-
+G2 = snap.GenRndGnm(snap.TUNGraph, 15, 20)
+signed_edges = edge_labeling(G2)
+seed_set = algorithmTSS(G2,signed_edges, 5,2)
+print("The Seed Set is: ",seed_set)
 
 
 
