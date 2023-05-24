@@ -12,7 +12,7 @@ avg_values5=[]
 
 #Graph import and visualization
 #G2 = snap.GenRndGnm(snap.TUNGraph, 200, 300)
-G2 = snap.LoadEdgeList(snap.TUNGraph, "Network3.txt", 0, 1)
+G2 = snap.LoadEdgeList(snap.TUNGraph, "test.txt", 0, 1)
 print("Grafo con",G2.GetNodes()," e ",G2.GetEdges()," archi caricato!")
 #snap.DrawGViz(G2, snap.gvlDot, "output.png", "Grafo non diretto")
 

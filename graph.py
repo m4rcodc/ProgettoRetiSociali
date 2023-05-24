@@ -43,9 +43,11 @@ def edge_labeling(G2):
     signed_edges=[]
 
     for EI in G2.Edges():
+        if EI.GetSrcNId() == EI.GetDstNId():
+            continue
         value = random.random()
-        if value <= 0.01:
-        # if value <= getMaxDegree(G2,EI.GetSrcNId(),EI.GetDstNId()):
+        #if value <= 0.01:
+        if value <= getMaxDegree(G2,EI.GetSrcNId(),EI.GetDstNId()):
             signed_edges.append((EI.GetSrcNId(),EI.GetDstNId(),'-'))
 
         else:
@@ -175,8 +177,9 @@ def algorithm3(signed_edges,k, threshold):
 #--------------------------------------------------------------------------------------------------------------------------
 
 #Applicazione algoritmo ideato
-#L'algoritmo prenderÃ  il nodo con grado positivo e coefficiente di clastering piÃ¹ alti
-#DopodichÃ© considererÃ  quello con piÃ¹ vicini che hanno grado positivo piÃ¹ alto
+#L'algoritmo prenderà il nodo con grado positivo più alto
+#Dopodiché considererà il vicino che ha grado positivo più alto, inserendolo nel seed set
+#Ripete l'operazione finché |S| <= k
 
 def algorithmIdeato(signed_edges,k):
 
@@ -302,7 +305,7 @@ def algorithmTSS(G2,signed_edges,k,threshold):
             break
         zero_threshold = [v for v in node_info.items() if v[1][0]<=0]
         if len(zero_threshold) != 0:
-            for v in zero_threshold:                #1: [60,153,4442]  #node_info = 4443
+            for v in zero_threshold:                
                 for neighbor in v[1][2]:
                     print(node_info[neighbor])
                     node_info[neighbor][0] -= 1
