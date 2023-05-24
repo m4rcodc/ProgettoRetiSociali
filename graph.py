@@ -11,7 +11,7 @@ import copy
 
 
 #G2 = snap.GenRndGnm(snap.TUndirNet, 4, 6)
-#G2 = snap.GenRndGnm(snap.TUNGraph, 150, 250)
+G2 = snap.GenRndGnm(snap.TUNGraph, 150, 250)
 
 
 #Compute function for proprability distribution
@@ -44,7 +44,7 @@ def edge_labeling(G2):
 
     for EI in G2.Edges():
         value = random.random()
-        if value <= 0.10:
+        if value <= 0.01:
         # if value <= getMaxDegree(G2,EI.GetSrcNId(),EI.GetDstNId()):
             signed_edges.append((EI.GetSrcNId(),EI.GetDstNId(),'-'))
 
@@ -271,6 +271,35 @@ def algorithmIdeato(signed_edges,k):
 
     return S
 
+#--------------------------------------------------------------------------------------------------------------------------
+
+#Applicazione TSS
+
+def algorithmTSS(G2,signed_edges,k,threshold):
+
+    S = []
+
+    node_info = {}
+
+    for node in G2.Nodes():
+            ns = []
+            for edge in signed_edges:
+                if edge[0] == node.GetId():
+                    ns.append(edge[1])
+                elif edge[1] == node.GetId():
+                    ns.append(edge[0])
+            node_info.append((node, ns))
+
+
+    for node in G2.Nodes():
+        if node.GetOutDeg() <  threshold:
+            S.append(node)
+
+    
+
+
+
+
 
 
 #--------------------------------------------------------------------------------------------------------------------------
@@ -398,3 +427,4 @@ print('Nodi influenzati: ', nodes)
 print("Length of influenced nodes: ",len(nodes))
 
 '''
+

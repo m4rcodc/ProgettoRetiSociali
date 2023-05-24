@@ -11,13 +11,13 @@ avg_values4=[]
 
 #Graph import and visualization
 #G2 = snap.GenRndGnm(snap.TUNGraph, 200, 300)
-G2 = snap.LoadEdgeList(snap.TUNGraph, "Network2.txt", 0, 1)
+G2 = snap.LoadEdgeList(snap.TUNGraph, "test.txt", 0, 1)
 print("Grafo con",G2.GetNodes()," e ",G2.GetEdges()," archi caricato!")
 #snap.DrawGViz(G2, snap.gvlDot, "output.png", "Grafo non diretto")
 
 rnge = 1
 
-for k in range(20,120,20):
+for k in range(5,35,5):
     avg_len2 = 0
     avg_len3 = 0
     avg_len4 = 0
@@ -29,7 +29,7 @@ for k in range(20,120,20):
         #seed(1)
 
         #Network Parameters
-        threshold = 4
+        threshold = 2
 
         #Global Variables
         signed_edges = []
@@ -72,7 +72,7 @@ for k in range(20,120,20):
 
 
 # Dati di esempio
-k = [20,40,60,80,100]  # Valori assegnati a "k"
+k = [5,10,15,20,25,30]  # Valori assegnati a "k"
 
 # Creazione del grafico
 plt.plot(k, avg_values2, marker='o', linestyle='-', color='b', label = 'Algoritmo 2')
