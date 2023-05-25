@@ -305,23 +305,23 @@ def algorithmTSS(G2,signed_edges,k,threshold):
             break
         zero_threshold = [v for v in node_info.items() if v[1][0]<=0]
         if len(zero_threshold) != 0:
-            for v in zero_threshold:                
-                for neighbor in v[1][2]:
-                    print(node_info[neighbor])
-                    node_info[neighbor][0] -= 1
-                    node_info[neighbor][1] -= 1
-                    node_info[neighbor][2].remove(v[0])
-                node_info.pop(v[0])
+            v = zero_threshold[0]              
+            for neighbor in v[1][2]:
+                print(node_info[neighbor])
+                node_info[neighbor][0] -= 1
+                node_info[neighbor][1] -= 1
+                node_info[neighbor][2].remove(v[0])
+            node_info.pop(v[0])
         else:
             lower_degree = [v for v in node_info.items() if v[1][1] < v[1][0]]
             if len(lower_degree) != 0:
-                for v in lower_degree:
-                    S.append(v[0])
-                    for neighbor in v[1][2]:
-                        node_info[neighbor][0] -= 1
-                        node_info[neighbor][1] -= 1
-                        node_info[neighbor][2].remove(v[0])
-                    del node_info[v[0]]
+                v = lower_degree[0]
+                S.append(v[0])
+                for neighbor in v[1][2]:
+                    node_info[neighbor][0] -= 1
+                    node_info[neighbor][1] -= 1
+                    node_info[neighbor][2].remove(v[0])
+                del node_info[v[0]]
             else:
                 mx = 0
                 for nd in node_info.items():
