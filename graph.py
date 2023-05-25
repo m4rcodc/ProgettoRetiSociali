@@ -102,6 +102,62 @@ def algorithm2(signed_edges,k):
 #print("Trovato seed set ", S2," con lunghezza ",len(S2))
 
 
+""" def closeness_centrality(graph, k):
+    closeness_scores = {}
+    # Calcola la closeness centrality per ciascun nodo
+    for node in graph.Nodes():
+        node_id = node.GetId()
+        closeness_score = snap.GetClosenessCentr(graph, node_id)
+        closeness_scores[node_id] = closeness_score
+
+    counterCloseness_scores = Counter(closeness_scores)
+    
+    max_values = counterCloseness_scores.most_common(k)
+
+    S = [item[0] for item in max_values]
+
+    print('Valori con cc piu alta',S)
+
+    return S """
+
+
+def betweennees(graph,signed_edges,k):
+    CmtyV = graph.CommunityGirvanNewman()
+
+    def find_max_positive_degree(edge_list):
+        positives = []
+        #maximum = 0
+        for edge in edge_list:
+            if edge[2] == '+':
+                positives.append(edge[0])
+                positives.append(edge[1])
+            #maximum = max(Counter(positives), maximum)
+        counter = Counter(positives)
+            #maximum = max(counter.values())
+
+
+        #print(Counter(positives))
+        return counter
+
+    S = []
+    cntr = find_max_positive_degree(signed_edges)
+    #counter = {1: 56, 6: 43 ...}
+
+    while len(S) < k:
+        for Cmty in CmtyV:
+            mx = 0
+            node = 0
+            for NI in Cmty:
+                val = cntr[NI] 
+                if val > mx:
+                    mx = val
+                    node = NI
+            S.append(node)
+            if len(S) == k:
+                break
+    
+    return S
+
 #--------------------------------------------------------------------------------------------------------------------------
 
 #Applicazione algoritmo 3
