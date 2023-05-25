@@ -39,7 +39,7 @@ def getMaxDegree(G2,value_src,value_dst):
 #Labeling degli edge
 def edge_labeling(G2):
 
-    #seed(1)
+    random.seed()
     signed_edges=[]
 
     for EI in G2.Edges():
@@ -303,19 +303,19 @@ def algorithmTSS(G2,signed_edges,k,threshold):
     while len(node_info) != 0:
         if len(S) >= k:
             break
-        zero_threshold = [v for v in node_info.items() if v[1][0]<=0]
-        if len(zero_threshold) != 0:
-            v = zero_threshold[0]              
+        #next((i for i in range(500) if i > 600), 600)
+        zero_threshold = next((v for v in node_info.items() if v[1][0]<=0), None)
+        if zero_threshold != None:
+            v = zero_threshold            
             for neighbor in v[1][2]:
-                print(node_info[neighbor])
                 node_info[neighbor][0] -= 1
                 node_info[neighbor][1] -= 1
                 node_info[neighbor][2].remove(v[0])
             node_info.pop(v[0])
         else:
-            lower_degree = [v for v in node_info.items() if v[1][1] < v[1][0]]
-            if len(lower_degree) != 0:
-                v = lower_degree[0]
+            lower_degree = next((v for v in node_info.items() if v[1][1]<= v[1][0]), None)
+            if lower_degree != None:
+                v = lower_degree
                 S.append(v[0])
                 for neighbor in v[1][2]:
                     node_info[neighbor][0] -= 1
@@ -328,12 +328,13 @@ def algorithmTSS(G2,signed_edges,k,threshold):
                     val = (nd[1][0]) / ((nd[1][1] * nd[1][1]) + 1)
                     if val > mx:
                         mx = val
-                max_nodes=[v for v in node_info.items() if (v[1][0]) / ((v[1][1] * v[1][1]) + 1) == mx]
-                if len(max_nodes) != 0:
-                    for neigh in max_nodes[0][1][2]:
+                        
+                max_nodes=next((v for v in node_info.items() if (v[1][0]) / ((v[1][1] * v[1][1]) + 1) == mx), None)
+                if max_nodes != None:
+                    for neigh in max_nodes[1][2]:
                         node_info[neigh][1] -= 1
-                        node_info[neigh][2].remove(max_nodes[0][0])
-                    node_info.pop(max_nodes[0][0])
+                        node_info[neigh][2].remove(max_nodes[0])
+                    node_info.pop(max_nodes[0])
                 else:
                     continue
     if len(S) >= k:

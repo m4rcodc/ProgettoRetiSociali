@@ -19,7 +19,7 @@ print("Grafo con",G2.GetNodes()," e ",G2.GetEdges()," archi caricato!")
 rnge = 10
 k_values = []
 
-for k in range(15,65,10):
+for k in range(15,75,10):
     avg_len2 = 0
     avg_len3 = 0
     avg_len4 = 0
@@ -89,7 +89,7 @@ for k in range(15,65,10):
 #plt.plot(k_values, avg_values2, marker='o', linestyle='-', color='b', label = 'Algoritmo 2')
 plt.plot(k_values, avg_values3, marker='o', linestyle='-', color='r', label = 'Algoritmo 3')
 plt.plot(k_values, avg_values4, marker='o', linestyle='-', color='g', label = 'AlgoritmoIdeato')
-plt.plot(k_values, avg_values5, marker='o', linestyle='-', color='y', label = 'AlgoritmoTSS')
+plt.plot(k_values, avg_values5, marker='o', linestyle='-', color='b', label = 'AlgoritmoTSS')
 
 # Titoli degli assi e del grafico
 plt.xlabel('k')
