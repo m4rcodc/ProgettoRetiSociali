@@ -418,7 +418,6 @@ def find_neighbors_in_seedset(signed_edges,seed_set):
     counter_difference = Counter()
 
 
-
     for item in filtered_edges:
         nodo_sorgente = item[0]
         nodo_destinazione = item[1]
