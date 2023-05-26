@@ -144,7 +144,7 @@ def betweennees(graph,signed_edges,k):
     #counter = {1: 56, 6: 43 ...}
 
     while len(S) < k:
-        for Cmty in CmtyV:
+        for Cmty in CmtyV[1]:
             mx = 0
             node = 0
             for NI in Cmty:

@@ -12,15 +12,15 @@ avg_values4=[]
 avg_values5=[]
 
 #Graph import and visualization
-#G2 = snap.GenRndGnm(snap.TUNGraph, 200, 300)
-G2 = snap.LoadEdgeList(snap.TUNGraph, "Network3.txt", 0, 1)
+G2 = snap.GenRndGnm(snap.TUNGraph, 400, 600)
+#G2 = snap.LoadEdgeList(snap.TUNGraph, "Network3.txt", 0, 1)
 print("Grafo con",G2.GetNodes()," e ",G2.GetEdges()," archi caricato!")
 #snap.DrawGViz(G2, snap.gvlDot, "output.png", "Grafo non diretto")
 
 rnge = 1
 k_values = []
 
-for k in range(25,55,10):
+for k in range(3,18,3):
     avg_len = 0
     avg_len3 = 0
     avg_len4 = 0
@@ -48,7 +48,7 @@ for k in range(25,55,10):
         print("--------------------------------Starting iteration", i,"---------------------------------------- ")
         signed_edges = graph.edge_labeling(G2)
         #S2 = graph.algorithm2(signed_edges, k)
-        S = graph.betweenees(G2, signed_edges, k)
+        S = graph.betweennees(G2, signed_edges, k)
         S3 = graph.algorithm3(signed_edges, k, threshold)
         #S4 = graph.algorithmIdeato(signed_edges, k)
         #S5 = graph.algorithmTSS(G2, signed_edges, k, threshold)
