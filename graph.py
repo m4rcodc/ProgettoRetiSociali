@@ -121,8 +121,26 @@ def algorithm2(signed_edges,k):
     return S """
 
 
-def betweennees(graph,signed_edges,k):
-    CmtyV = graph.CommunityGirvanNewman()
+def SS_CD(graph,signed_edges,k):
+    CmtyV = graph.CommunityCNM()
+    
+
+    def get_neighbors_dict():
+        node_info = {}
+        for node in graph.Nodes():
+            ns = []
+            lista = []
+            for edge in signed_edges:
+                if edge[0] == edge[1]:
+                    continue
+                if edge[0] == node.GetId():
+                    ns.append(edge[1])
+                elif edge[1] == node.GetId():
+                    ns.append(edge[0])
+            lista.append(ns)
+            node_info[node.GetId()]=lista
+        return node_info
+    
 
     def find_max_positive_degree(edge_list):
         positives = []
@@ -141,6 +159,7 @@ def betweennees(graph,signed_edges,k):
 
     S = []
     cntr = find_max_positive_degree(signed_edges)
+    node_info = get_neighbors_dict()
     #counter = {1: 56, 6: 43 ...}
 
     while len(S) < k:
@@ -152,6 +171,9 @@ def betweennees(graph,signed_edges,k):
                 if val > mx:
                     mx = val
                     node = NI
+            for neighbor in node_info[node]:
+                for n in neighbor:
+                    cntr[n] -= 1
             S.append(node)
             if len(S) == k:
                 break

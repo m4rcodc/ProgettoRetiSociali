@@ -1,92 +1,88 @@
 import snap
 import graph
 import matplotlib.pyplot as plt
+import time
 
 
 #--------------------------------------------------------------------------------------------------
 #Main function
 #avg_values2=[]
-avg_values=[]
+avg_valuesSSCD=[]
 avg_values3=[]
 avg_values4=[]
-avg_values5=[]
+avg_valuesTSS=[]
+ti = time.time()
 
 #Graph import and visualization
-G2 = snap.GenRndGnm(snap.TUNGraph, 400, 600)
-#G2 = snap.LoadEdgeList(snap.TUNGraph, "Network3.txt", 0, 1)
-print("Grafo con",G2.GetNodes()," e ",G2.GetEdges()," archi caricato!")
-#snap.DrawGViz(G2, snap.gvlDot, "output.png", "Grafo non diretto")
+#G2 = snap.GenRndGnm(snap.TUNGraph, 400, 900)
+G2 = snap.LoadEdgeList(snap.TUNGraph, "Network3.txt", 0, 1)
+print("Graph with ",G2.GetNodes()," and ",G2.GetEdges()," edges loaded!")
+snap.DrawGViz(G2, snap.gvlDot, "outputgraph.png", "Undirected Graph")
 
-rnge = 1
+iterations = 1
+threshold = 2
 k_values = []
 
-for k in range(3,18,3):
-    avg_len = 0
+for k in range(10,60,10):
+    avg_lenSSCD = 0
     avg_len3 = 0
     avg_len4 = 0
-    avg_len5 = 0
+    avg_lenTSS = 0
     k_values.append(k)
     
     print("\n\n")
     print("++++++++++++++++++++++++++++++Starting simulation with k=",k,"+++++++++++++++++++++++++++++++++++++++")
 
-    for i in range(0,rnge):
-        #seed(1)
-
-        #Network Parameters
-        threshold = 2
+    for i in range(0,iterations):
 
         #Global Variables
         signed_edges = []
-        #nodes2 = []
-        nodes = []
-        nodes3 = []
-        nodes4 = []
-        nodes5 = []
 
         #Operations
-        print("--------------------------------Starting iteration", i,"---------------------------------------- ")
+        print("--------------------------------Starting iteration", i + 1,"---------------------------------------- ")
         signed_edges = graph.edge_labeling(G2)
         #S2 = graph.algorithm2(signed_edges, k)
-        S = graph.betweennees(G2, signed_edges, k)
-        S3 = graph.algorithm3(signed_edges, k, threshold)
         #S4 = graph.algorithmIdeato(signed_edges, k)
-        #S5 = graph.algorithmTSS(G2, signed_edges, k, threshold)
+        S3 = graph.algorithm3(signed_edges, k, threshold)
+        STSS = graph.algorithmTSS(G2, signed_edges, k, threshold)
+        SSSCD = graph.SS_CD(G2, signed_edges, k)
         #print("Initial Seed Set alg2: ",S2)
-        print("Initial Seed Set algCentr: ",S)
+        #print("Initial Seed Set algIdeato: ",S4)
+        print("Initial Seed Set algSSCD: ",SSSCD)
         print("Initial Seed Set alg3: ",S3)
-        #print("Initial Seed Set alg4: ",S4)
-        #print("Initial Seed Set alg5: ",S5)
+        print("Initial Seed Set algTSS: ",STSS)
         #nodes2 = graph.cascade_function(S2, threshold, signed_edges)
-        nodes = graph.cascade_function(S, threshold, signed_edges)
+        nodesSSCD = graph.cascade_function(SSSCD, threshold, signed_edges)
         nodes3 = graph.cascade_function(S3, threshold, signed_edges)
+        nodesTSS = graph.cascade_function(STSS, threshold, signed_edges)
         #nodes4 = graph.cascade_function(S4, threshold, signed_edges)
-        #nodes5 = graph.cascade_function(S5, threshold, signed_edges)
         #print("Influenced nodes: ",nodes2)
         #print("Length of influenced nodes alg2: ",len(nodes2))
-        print("Length of influenced nodes algCentr: ",len(nodes))
+        print("Length of influenced nodes algSSCD: ",len(nodesSSCD))
         print("Length of influenced nodes alg3: ",len(nodes3))
-        #print("Length of influenced nodes alg4: ",len(nodes4))
-        #print("Length of influenced nodes alg5: ",len(nodes5))
+        print("Length of influenced nodes algTSS: ",len(nodesTSS))
+        #print("Length of influenced nodes algIdeato: ",len(nodes4))
         #avg_len2 += len(nodes2)
-        avg_len += len(nodes)
+        avg_lenSSCD += len(nodesSSCD)
         avg_len3 += len(nodes3)
+        avg_lenTSS += len(nodesTSS)
         #avg_len4 += len(nodes4)
-        #avg_len5 += len(nodes5)
 
-    #avg_values2.append(avg_len2/rnge)
-    avg_values.append(avg_len/rnge)
-    avg_values3.append(avg_len3/rnge)
-    #avg_values4.append(avg_len4/rnge)
-    #avg_values5.append(avg_len5/rnge)
+    #avg_values2.append(avg_len2/iterations)
+    avg_valuesSSCD.append(avg_lenSSCD/iterations)
+    avg_values3.append(avg_len3/iterations)
+    avg_valuesTSS.append(avg_lenTSS/iterations)
+    te = time.time()
+    #avg_values4.append(avg_len4/iterations)
     #Final print
     print("Main completed")
     print("--------------------------------------------Result--------------------------------------------------")
-    #print('Average number of influenced nodes by alg2: ',avg_len2/rnge)
-    print('Average number of influenced nodes by algCentr: ',avg_len/rnge)
-    print('Average number of influenced nodes by alg3: ',avg_len3/rnge)
-    #print('Average number of influenced nodes by alg4: ',avg_len4/rnge)
-    #print('Average number of influenced nodes by alg5: ',avg_len5/rnge)
+    #print('Average number of influenced nodes by alg2: ',avg_len2/iterations)
+    print('Average number of influenced nodes by algSSCD: ',avg_lenSSCD/iterations)
+    print('Average number of influenced nodes by alg3: ',avg_len3/iterations)
+    print('Average number of influenced nodes by algTSS: ',avg_lenTSS/iterations)
+    #print('Average number of influenced nodes by algIdeato: ',avg_len4/iterations)
+    print("The algorithm took ", te-ti," seconds to complete!")
     print("----------------------------------------------------------------------------------------------------")
 
 
@@ -96,17 +92,19 @@ for k in range(3,18,3):
 
 # Creazione del grafico
 #plt.plot(k_values, avg_values2, marker='o', linestyle='-', color='b', label = 'Algoritmo 2')
-plt.plot(k_values, avg_values3, marker='o', linestyle='-', color='r', label = 'Algoritmo 3')
-plt.plot(k_values, avg_values, marker='o', linestyle='-', color='g', label = 'AlgoritmoCentr')
-#plt.plot(k_values, avg_values5, marker='o', linestyle='-', color='b', label = 'AlgoritmoTSS')
+plt.plot(k_values, avg_valuesSSCD, marker='o', linestyle='-', color='g', label = 'SSCD Algorithm')
+plt.plot(k_values, avg_values3, marker='o', linestyle='-', color='r', label = '3rd Algorithm')
+plt.plot(k_values, avg_valuesTSS, marker='o', linestyle='-', color='b', label = 'TSS Algorithm')
+#plt.plot(k_values, avg_values4, marker='o', linestyle='-', color='y', label = 'AlgoritmoIdeato')
+
 
 # Titoli degli assi e del grafico
 plt.xlabel('k')
-plt.ylabel('avg_value')
+plt.ylabel('avg_influenced_nodes')
 plt.legend()
 plt.grid(True)
-#plt.title('Threshold = 2; Probability = constant(0.01)')
-plt.title('Threshold = 2; Probability = proportional')
+#plt.title('Threshold = '+str(threshold)+'; Probability = constant(0.01)')
+plt.title('Threshold = '+str(threshold)+'; Probability = proportional')
 
 
 # Visualizzazione del grafico
