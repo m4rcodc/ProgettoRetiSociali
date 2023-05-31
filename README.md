@@ -41,15 +41,13 @@ Il dataset scelto consiste nelle “cerchie” (o friend-lists) di Facebook. I d
 I dati sono stati anonimizzati rimpiazzando gli id interni di Facebook con un nuovo valore. Inoltre, dal momento che sono stati forniti i vettori contenenti le varie features di questo dataset, l’interpretazione di queste caratteristiche è stata anonimizzata. Per esempio, dove nel dataset originale era presente la  caratteristica “political=Democratic Party”, il nuovo valore per questa feature conterrebbe semplicemente “political=anonymized feature 1”. Con i dati anonimizzati, è possibile determinare se due utenti hanno le stesse affiliazioni politiche, ma non è possibile sapere le effettive affiliazioni dei singoli individui. 
 
 <div align="center">
-  <img src="./ImageAndGraph/ego-Facebook-Network.png" alt="Nome immagine">
+  <img src="./ImageAndGraph/ego-Facebook-Network.png" alt="Rete">
 </div>
 
 
-Caratteristiche della rete:
-- Numero di nodi: 4039
-- Numero di archi: 88234
-- Coefficiente di clustering medio: 0.6055
-- Grado medio: 43.69
+<div align="center">
+  <img src=".ImageAndGraph/CaratteristicheDellaRete.png" alt="CaratteristicheDellaRete">
+</div>
 
 La scelta di questa rete è stata basata sulla sua densità di connessioni, la presenza di comunità ben connesse al loro interno e la possibilità di modellare relazioni positive e negative tra i nodi.
 
