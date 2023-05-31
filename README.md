@@ -40,6 +40,11 @@ La rete scelta è “ego-Facebook”, una delle reti messe a disposizione da SNA
 Il dataset scelto consiste nelle “cerchie” (o friend-lists) di Facebook. I dati sono stati raccolti tramite i partecipanti ad un sondaggio utilizzando l’app di Facebook. Il dataset include le caratteristiche dei nodi (profili), le cerchie e gli ego networks, ovvero reti costituite di un nodo focale (“ego”), dei nodi ai quali l’ego è direttamente connesso (detti “alters”) e dei collegamenti, se presenti, tra gli alters. 
 I dati sono stati anonimizzati rimpiazzando gli id interni di Facebook con un nuovo valore. Inoltre, dal momento che sono stati forniti i vettori contenenti le varie features di questo dataset, l’interpretazione di queste caratteristiche è stata anonimizzata. Per esempio, dove nel dataset originale era presente la  caratteristica “political=Democratic Party”, il nuovo valore per questa feature conterrebbe semplicemente “political=anonymized feature 1”. Con i dati anonimizzati, è possibile determinare se due utenti hanno le stesse affiliazioni politiche, ma non è possibile sapere le effettive affiliazioni dei singoli individui. 
 
+<div align="center">
+  <img src="./ImageAndGraph/ego-Facebook-Network.png" alt="Nome immagine">
+</div>
+
+
 Caratteristiche della rete:
 - Numero di nodi: 4039
 - Numero di archi: 88234
