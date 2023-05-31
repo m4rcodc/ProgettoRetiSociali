@@ -15,11 +15,11 @@ ti = time.time()
 
 #Graph import and visualization
 #G2 = snap.GenRndGnm(snap.TUNGraph, 400, 900)
-G2 = snap.LoadEdgeList(snap.TUNGraph, "Network3.txt", 0, 1)
+G2 = snap.LoadEdgeList(snap.TUNGraph, "ego-Facebook.txt", 0, 1)
 print("Graph with ",G2.GetNodes()," and ",G2.GetEdges()," edges loaded!")
 snap.DrawGViz(G2, snap.gvlDot, "outputgraph.png", "Undirected Graph")
 
-iterations = 1
+iterations = 10
 threshold = 2
 k_values = []
 
